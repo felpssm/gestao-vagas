@@ -21,7 +21,7 @@ public class AuthCandidateController {
     @Autowired
     private AuthCandidateUseCase authCandidateUseCase;
 
-    @PostMapping("auth")
+    @PostMapping("/auth")
     public ResponseEntity<Object> auth(@RequestBody AuthCandidateRequestDTO authCandidateRequestDTO){
 
         try {
