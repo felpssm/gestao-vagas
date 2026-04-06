@@ -1,6 +1,7 @@
 package com.felpssdev.gestao_vagas.modules.candidate.useCases;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -71,13 +72,16 @@ public class ApplyJobCandidateUseCaseTest {
 
         var applyJob = ApplyJobEntity.builder().candidateId(idCandidate).jobId(idJob).build();
 
+        var applyJobCreated = ApplyJobEntity.builder().id(UUID.randomUUID()).build();
+
         when(candidateRepository.findById(idCandidate)).thenReturn(Optional.of(new CandidateEntity()));
         when(jobRepository.findById(idJob)).thenReturn(Optional.of(new JobEntity()));
-        when(applyJobRepository.save(applyJob)).thenReturn(new ApplyJobEntity());
+        when(applyJobRepository.save(applyJob)).thenReturn(applyJobCreated);
 
         var result = applyJobCandidateUseCase.execute(idCandidate, idJob);
 
         assertThat(result).hasFieldOrProperty("id");
+        assertNotNull(result.getId());
     }
 
 }
