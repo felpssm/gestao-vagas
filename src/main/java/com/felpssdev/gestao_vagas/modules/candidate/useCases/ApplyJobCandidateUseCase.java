@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import com.felpssdev.gestao_vagas.exceptions.JobNotFoundException;
 import com.felpssdev.gestao_vagas.exceptions.UserNotFoundException;
 import com.felpssdev.gestao_vagas.modules.candidate.CandidateRepository;
+import com.felpssdev.gestao_vagas.modules.candidate.entity.ApplyJobEntity;
 import com.felpssdev.gestao_vagas.modules.company.repositories.JobRepository;
+import com.felpssdev.gestao_vagas.modules.candidate.repository.ApplyJobRepository;
 
 @Service
 public class ApplyJobCandidateUseCase {
@@ -19,19 +21,24 @@ public class ApplyJobCandidateUseCase {
     @Autowired
     private JobRepository jobRepository;
 
-    public void Execute(UUID idCandidate, UUID idJob) {
+    @Autowired
+    private ApplyJobRepository applyJobRepository;
+
+    public ApplyJobEntity execute(UUID idCandidate, UUID idJob) {
         this.candidateRepository.findById(idCandidate)
-                .orElseThrow(() -> {
-                    throw new UserNotFoundException();
-                });
+                .orElseThrow(UserNotFoundException::new);
 
         // validar se a vaga existe
         this.jobRepository.findById(idJob)
-                .orElseThrow(() -> {
-                    throw new JobNotFoundException();
-                });
+                .orElseThrow(JobNotFoundException::new);
 
         // candidato inscrever na vaga
+        var applyJob = ApplyJobEntity.builder()
+                .candidateId(idCandidate)
+                .jobId(idJob).build();
+
+        applyJob = applyJobRepository.save(applyJob);
+        return applyJob;
     }
 
 }

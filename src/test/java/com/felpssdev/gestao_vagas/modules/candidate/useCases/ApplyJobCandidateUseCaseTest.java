@@ -35,7 +35,7 @@ public class ApplyJobCandidateUseCaseTest {
     @DisplayName("Should not be able to apply job with candidate not found")
     public void should_not_be_able_to_apply_job_with_candidate_not_found() {
         try {
-            applyJobCandidateUseCase.Execute(null, null);
+            applyJobCandidateUseCase.execute(null, null);
         } catch (Exception e) {
             assertThat(e).isInstanceOf(UserNotFoundException.class);
         }
@@ -51,11 +51,17 @@ public class ApplyJobCandidateUseCaseTest {
         when(candidateRepository.findById(idCandidate)).thenReturn(Optional.of(candidate));
 
         try {
-            applyJobCandidateUseCase.Execute(idCandidate, null);
+            applyJobCandidateUseCase.execute(idCandidate, null);
         } catch (Exception e) {
             assertThat(e).isInstanceOf(JobNotFoundException.class);
         }
 
+    }
+
+    @Test
+    public void should_not_be_able_to_create_a_new_apply_job() {
+        var idCandidate = UUID.randomUUID();
+        var idJob = UUID.randomUUID();
     }
 
 }
