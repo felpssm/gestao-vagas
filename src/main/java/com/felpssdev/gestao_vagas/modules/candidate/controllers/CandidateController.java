@@ -18,7 +18,7 @@ import com.felpssdev.gestao_vagas.modules.candidate.CandidateEntity;
 import com.felpssdev.gestao_vagas.modules.candidate.dto.ProfileCandidateResponseDTO;
 import com.felpssdev.gestao_vagas.modules.candidate.useCases.CreateCandidateUseCase;
 import com.felpssdev.gestao_vagas.modules.candidate.useCases.ListAllJobsByFilterUseCase;
-import com.felpssdev.gestao_vagas.modules.candidate.useCases.ProfileCandidadeUseCase;
+import com.felpssdev.gestao_vagas.modules.candidate.useCases.ProfileCandidateUseCase;
 import com.felpssdev.gestao_vagas.modules.company.entities.JobEntity;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,7 +44,7 @@ public class CandidateController {
     private CreateCandidateUseCase createCandidateUseCase;
 
     @Autowired
-    private ProfileCandidadeUseCase profileCandidadeUseCase;
+    private ProfileCandidateUseCase profileCandidadeUseCase;
 
     @Autowired
     private ApplyJobCandidateUseCase applyJobCandidateUseCase;

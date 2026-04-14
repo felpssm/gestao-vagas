@@ -2,33 +2,29 @@ package com.felpssdev.gestao_vagas.modules.candidate.useCases;
 
 import java.util.UUID;
 
+import com.felpssdev.gestao_vagas.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.felpssdev.gestao_vagas.modules.candidate.CandidateRepository;
 import com.felpssdev.gestao_vagas.modules.candidate.dto.ProfileCandidateResponseDTO;
 
 @Service
-public class ProfileCandidadeUseCase {
+public class ProfileCandidateUseCase {
 
     @Autowired
     private CandidateRepository candidateRepository;
 
     public ProfileCandidateResponseDTO execute(UUID idCandidate) {
         var candidate = this.candidateRepository.findById(idCandidate)
-                .orElseThrow(() -> {
-                    throw new UsernameNotFoundException("User not found");
-                });
+                .orElseThrow(UserNotFoundException::new);
 
-        var candidateDTO = ProfileCandidateResponseDTO.builder()
+        return ProfileCandidateResponseDTO.builder()
                 .description(candidate.getDescription())
                 .username(candidate.getUsername())
                 .email(candidate.getEmail())
                 .name(candidate.getName())
                 .id(candidate.getId())
                 .build();
-
-        return candidateDTO;
     }
 }
